@@ -1,28 +1,36 @@
 import { BsMoonStars, BsFillSunFill, BsChevronDown } from 'react-icons/bs'
 import { AiOutlineUsergroupAdd, AiOutlinePlus } from 'react-icons/ai'
 import { useDispatch, useSelector } from 'react-redux'
-import { useState } from 'react'
+import { useState, useRef } from 'react'
+import Icons from '../Constants/listIcons'
 const SideBar = () => {
   const theme = useSelector(state => state.bool)
   const [_logout, _setLogout] = useState(false)
   const dispatch = useDispatch()
-
+  const _ref = useRef(null)
   const handleClassToggle = () => {
-  _setLogout(!_logout)
+    _setLogout(!_logout)
   }
   const stopPropagation = e => e.stopPropagation()
   const togglesidebarfunc = () => dispatch({ type: "side-bar" })
   const sidebar = useSelector(state => state.sidebar)
   const handleThemeChange = () => {
     dispatch({ type: "theme-toggle" })
+    if (!theme) {
+      _ref.current.classList.add("scale-up")
+      _ref.current.classList.remove("scale-down")
+      return
 
+    }
+    _ref.current.classList.remove("scale-up")
+      _ref.current.classList.add("scale-down")
   }
   return (
     <div className={`fixed h-screen sidenavmaincontainer
-    z-40 top-0 w-full ${sidebar ? "active" : ""}`} onClick={togglesidebarfunc}>
-      <div className={`absolute z-40  w-5 h-5 rounded-full top-7 ${!theme?"scale-up":"scale-down"}`}style={{
-        left: "var(--m-scale)",background:!theme?"rgba(0,0,0,0.7)":"rgba(255,255,255,0.6)",
-      }}></div>
+    z-40 top-0 w-full ${sidebar ? "active" : ""}`} onClick={togglesidebarfunc} > 
+      <div className={`absolute z-40  w-1 h-1 rounded-full top-7 `} style={{
+        left: "var(--m-scale)", background: theme ? "rgba(0,0,0,0.7)" : "rgba(255,255,255,0.6)",
+      }}  ref={_ref}></div>
       <div className={`sidebarcontainer z-10  bg-white 
       dark:bg-slate-800 h-full pb-4 active ${sidebar ? "active shadow-md" : ""}
     `} onClick={stopPropagation}>
@@ -72,12 +80,12 @@ const SideBar = () => {
               <h3 className="text-lg text-white">Add Account </h3>
             </div>
           </div>
-          {Array.from(Array(6)).map((_, idx) => {
+          {Icons.map((_, idx) => {
             return (
               <div className="px-4 flex gap-4 py-2 my-1 transition-all  duration-500
           hover:bg-slate-700" key={idx}>
-                <AiOutlineUsergroupAdd size={30} className="text-slate-500" />
-                <h3 className="text-lg text-dark dark:text-white">New Group </h3>
+          {_.icon}
+                <h3 className="text-lg text-dark dark:text-white">{_.name} </h3>
               </div>
 
             )

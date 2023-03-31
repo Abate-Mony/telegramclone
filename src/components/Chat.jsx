@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom'
 import { useState, useRef } from 'react'
-const Chat = () => {
+const Chat = ({user,id}) => {
     const _ref = useRef(null)
     const navigate = useNavigate()
     const [start, setStart] = useState(null)
@@ -32,15 +32,13 @@ const Chat = () => {
             window.navigator.vibrate([100])
             _ref.current.parentElement.remove()
         }
-        // if(clientX)
 
     }
-    // const handleGotoChatwidthid=id=>navigate(`/chat/2`)
     return (
 
 
 
-        <div className={`${isPressedDown ? "bg-blue-400" : ""} relative`} onClick={() => navigate("/chat/3")} onTouchStart={handleTouchstart}
+        <div className={`${isPressedDown ? "bg-blue-400" : ""} relative`} onClick={() => navigate(`chat/${user.id}`)} onTouchStart={handleTouchstart}
             onTouchEnd={handleTouchend}
             onTouchMove={handleTouchMove}>
             <div className={`absolute right-[10px] h-full w-[80px] bg-white top-0 z-10`}>
@@ -50,21 +48,22 @@ const Chat = () => {
           duratio overflow-x-hidden
         hover:bg-slate-300 select-none rounded-lg relative z-10"ref={_ref} >
                 <div className="image-container">
-                    <img
-                        src="https://th.bing.com/th/id/OIP.w-f-qDRUjGt9e_SuPTcfcgHaHw?w=158&h=180&c=7&r=0&o=5&pid=1.7"
+                    <img className='h-full w-full object-cover'
+                     src={user?.imgurl || "https://th.bing.com/th/id/OIP.w-f-qDRUjGt9e_SuPTcfcgHaHw?w=158&h=180&c=7&r=0&o=5&pid=1.7"}
+                        // src="https://th.bing.com/th/id/OIP.w-f-qDRUjGt9e_SuPTcfcgHaHw?w=158&h=180&c=7&r=0&o=5&pid=1.7"
                         alt="user" />
 
                 </div>
-                <div className="text-box shadow-d dark:shadow-b pb-1" style={{ flex: "1" }}>
+                <div className="text-box shadow-d dark:shadow-b pb-1 capitalize" style={{ flex: "1" }}>
                     <div className="flex  justify-between leading-3">
-                        <h3 className="text-lg font-manrope">Doris Ayuk </h3>
-                        <span className="text-sm text-slate-500 "> 11:00</span>
+                        <h3 className="text-lg font-manrope">{user.name} </h3>
+                        <span className="text-sm text-slate-500 "> {user?.lastmessage?.time}</span>
                     </div>
                     {/* bottm text box */}
                     <div className="flex  justify-between leading-3">
-                        <h3 className="text-sm text-slate-500 line-clamp-1" style={{ flex: "1" }}>hello rose how are you doing today?</h3>
+                        <h3 className="text-sm text-slate-500 line-clamp-1" style={{ flex: "1" }}>{user?.lastmessage?.message}</h3>
                         <span className="text-sm text-white w-[20px]
-    h-[20px] bg-blue-500 rounded-full flex items-center justify-center " >3</span>
+    h-[20px] bg-blue-500 rounded-full flex items-center justify-center " >{user.lastmessage.msgcnt}</span>
                     </div>
                 </div>
 

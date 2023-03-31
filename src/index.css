@@ -33,7 +33,7 @@
         visibility: visible;
     }
     to {
-        transform: scale(100);
+        transform: scale(400);
         visibility: hidden;
         pointer-events: none;
     }
@@ -41,7 +41,7 @@
 
 @keyframes down {
     from {
-        transform: scale(100);
+        transform: scale(400);
         visibility: visible;
     }
     to {
