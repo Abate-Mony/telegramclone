@@ -1,6 +1,8 @@
 import { useNavigate } from 'react-router-dom'
 import { useState, useRef } from 'react'
+import { useDispatch } from 'react-redux'
 const Chat = ({user,id}) => {
+const dispatch=useDispatch()
     const _ref = useRef(null)
     const navigate = useNavigate()
     const [start, setStart] = useState(null)
@@ -12,6 +14,7 @@ const Chat = ({user,id}) => {
 
     }
     const handleTouchstart = (e) => {
+    
         setIsPressedDown(true)
         setStart(e.touches[0].clientX)
     }
@@ -31,6 +34,12 @@ const Chat = ({user,id}) => {
         if (diff > 200) {
             window.navigator.vibrate([100])
             _ref.current.parentElement.remove()
+            dispatch({type:"toggle-on"})
+            const timeout=setTimeout(() => {
+                clearTimeout(timeout)
+            dispatch({type:"toggle-off"})
+                
+            }, 1000);
         }
 
     }
@@ -54,9 +63,9 @@ const Chat = ({user,id}) => {
                         alt="user" />
 
                 </div>
-                <div className="text-box shadow-d dark:shadow-b pb-1 capitalize" style={{ flex: "1" }}>
+                <div className="text-box shadow-d dark:shadow-b pb-1 capitalize overflow-hidden " style={{ flex: "1" }}>
                     <div className="flex  justify-between leading-3">
-                        <h3 className="text-lg font-manrope">{user.name} </h3>
+                        <h3 className="text-lg font-manrope line-clamp-1 max-w-[200px] overflow-hidden">{user.name} </h3>
                         <span className="text-sm text-slate-500 "> {user?.lastmessage?.time}</span>
                     </div>
                     {/* bottm text box */}

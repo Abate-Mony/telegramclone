@@ -60,7 +60,7 @@ const users = [
     },
     {
 
-        "name": "Michael Jordarn",
+        "name": "Michael Jordarn Paul Fred Jordan Tumel",
         lastmessage: {
             time: "2 mins ago",
             msgcnt: 0,

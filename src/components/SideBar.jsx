@@ -1,5 +1,5 @@
 import { BsMoonStars, BsFillSunFill, BsChevronDown } from 'react-icons/bs'
-import { AiOutlineUsergroupAdd, AiOutlinePlus } from 'react-icons/ai'
+import {  AiOutlinePlus } from 'react-icons/ai'
 import { useDispatch, useSelector } from 'react-redux'
 import { useState, useRef } from 'react'
 import Icons from '../Constants/listIcons'
@@ -32,7 +32,7 @@ const SideBar = () => {
         left: "var(--m-scale)", background: theme ? "rgba(0,0,0,0.7)" : "rgba(255,255,255,0.6)",
       }}  ref={_ref}></div>
       <div className={`sidebarcontainer z-10  bg-white 
-      dark:bg-slate-800 h-full pb-4 active ${sidebar ? "active shadow-md" : ""}
+      dark:bg-slate-800 h-full pb-4  ${sidebar ? "active shadow-md" : ""}
     `} onClick={stopPropagation}>
         <div className="m-0 py-0 bg-blue-400 dark:bg-slate-600 px-4 pt-5 pb-2">
 

@@ -1,5 +1,5 @@
 import { MdArrowBack } from 'react-icons/md'
-import { useNavigate ,useParams} from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 import { Send, Recieve } from '../components'
 import { BsEmojiSmile, BsMic } from 'react-icons/bs'
 import { IoIosAttach, IoMdCall } from 'react-icons/io'
@@ -8,10 +8,12 @@ import { HiOutlineDotsVertical } from 'react-icons/hi'
 import { BsChevronRight } from 'react-icons/bs'
 import { useState, useEffect, useRef } from 'react'
 import users from '../Constants/User'
+import { IoMdSend } from 'react-icons/io'
+import EmojiPicker from 'emoji-picker-react'
 const Chat = () => {
-const id=useParams().id
+    const id = useParams().id
     const _ref = useRef(null)
-    const _opt=useRef(null)
+    const _opt = useRef(null)
     const [scale, setScale] = useState(2)
     const [chng, setChng] = useState(true)
     const navigate = useNavigate()
@@ -21,13 +23,17 @@ const id=useParams().id
     const [top, setTop] = useState(60)
     const [left, setLeft] = useState(30)
     const [bol, setBol] = useState(false)
-    const [currentUser,setCurrentUser]=useState("")
+    const [currentUser, setCurrentUser] = useState("")
+    const [text, setText] = useState("")
+    const [selected, setSelected] = useState([])
+    var [timer, setTimer] = useState(null)
     const handleState = () => {
         setChng(!chng)
         window.history.pushState({}, window.location.href, null)
     }
     useEffect(() => {
         window.addEventListener("popstate", () => {
+            setSelected([])
             if (!chng) {
                 setChng(true)
             }
@@ -35,10 +41,11 @@ const id=useParams().id
         return () => {
         }
     }, [chng]);
+
     useEffect(() => {
 
-const baseuser=users.find(user=>user.id==id)
-setCurrentUser(baseuser)
+        const baseuser = users.find(user => user.id == id)
+        setCurrentUser(baseuser)
 
         if (chng) {
             window.scrollTo(0, 50)
@@ -60,90 +67,217 @@ setCurrentUser(baseuser)
             })
 
         }
+        window.addEventListener("popstate", () => {
+            setSelected([])
 
+        })
+        window.addEventListener("scroll", () => {
+            // setSelected([])
+
+            clearInterval(timer)
+
+        })
     }, [])
+    const changeClassList = () => {
+        _opt.current.classList.toggle("h-screen")
+        _opt.current.classList.toggle("h-0")
+        setOpt(!opt)
+    }
+    const resetTextValue = () => setText("")
+    const handleTextChange = e => {
+        setText(e.target.value)
+        if (text.trim().length < 0) return
+    }
+    const handleTextSend = e => {
+        const _temp = {
+            ...currentUser, textmessages: [...currentUser.textmessages, {
+                "user": text
+            }]
 
+        }
+        resetTextValue()
+        setCurrentUser({ ..._temp })
+        // console.log(_temp);
+
+    }
+    const handleTouchEnd = () => {
+        clearInterval(timer)
+
+
+    }
+    const handleSelectedText = (id) => {
+
+        if (selected.includes(id)) {
+            const temp = selected.filter(select => select !== id);
+            setSelected(temp)
+            return
+        }
+        setSelected([...selected, id])
+
+        if (selected.length == 1) {
+            window.history.pushState({}, window.location.href, null)
+        }
+        if (selected.length == 0) {
+
+            // navigate(-1)
+        }
+
+    }
+    const handleTouchStart = (id) => {
+        var _t = 0
+        if (selected.length > 0) {
+            return handleSelectedText(id)
+        }
+        const _timer = setInterval(() => {
+            ++_t;
+            if (_t >= 2) {
+                clearInterval(timer)
+                return handleSelectedText(id)
+            }
+
+        }, [1000])
+        setTimer(_timer)
+
+    }
     return (
 
         <>{chng ?
-            <div className='select-none' onClick={() => opt && setOpt(false)}>
-                <div className="chattop__navbar flex  h-[60px] bg-slate-800 shadow fixed top-0 left-0 
-            text-white container mx-auto gap-4 items-center ">
-                    <div className={`absolute right-3 top-2 bg-white shadow-2xl flex flex-col  overflow-hidden
-                rounded-lg text-black  transition-all duration-500 
-                ${opt ? "max-h-[1000px] max-w-[1000px] select-none  py-2" : "max-h-[0px]"} `}
-                onClick={e => e.stopPropagation()} ref={_opt}>
-                        <div className="flex gap-2 items-center px-2 hover:bg-slate-300 py-2">
+            <div className='select-none fadein' >
+                <div className={`fixed bottom-0 z-50 w-full h-full  left-0 bg-slate-300
+                ${bol ? "block" : "hidden"}`} onClick={()=>setBol(false)}>
+                    <div className="absolute bottom-0 w-full left-0" onClick={e=>e.stopPropagation()}>
+
+
+
+                    <EmojiPicker theme="dark" height={350} autoFocusSearch={false}
+                    width={window.innerWidth < 400 ? window.innerWidth : 400} className="w-full border-4 border-orange-600" onEmojiClick={(emjObj) => {
+
+                        console.log(emjObj.emoji)
+                        setText(text.concat(emjObj.emoji))
+                        setBol(false)
+
+                    }} />
+
+                    </div>
+
+
+                </div>
+                <div className={`fixed top-0 left-0 w-full bg-red-300 min-h-[60px] opacity-0 transition-opacity duration-500
+            ${selected.length > 0 && "z-50 opacity-100"}`}></div>
+
+                <div className={`fixed bottom-0 left-0 w-full bg-red-300 min-h-[60px] opacity-0 transition-opacity duration-500
+            ${selected.length > 0 && "z-50 opacity-100"}`}></div>
+                <div className="absolute top-0 h-0 bg-transparent left-0 w-full overflow-hidden z-50"
+                    ref={_opt} onClick={changeClassList}>
+                    <div className={`absolute right-3 top-2 bg-white shadow-2xl flex
+                    flex-col  overflow-hidden
+                rounded-lg text-black  transition-all 
+                duration-500 select-none ${opt ? "max-h-[1000px] " : "max-h-[0]"}
+                 `}
+                        onClick={e => e.stopPropagation()}   >
+                        <div className="flex gap-4 items-center px-6 pr-3 hover:bg-slate-300 py-2">
                             <IoMdCall size={20} />
-                            <h3 className="text-lg ">clear history </h3>
+                            <h3 className="text-lg flex-1">Mute </h3>
                             <BsChevronRight size={20} color="black" />
                         </div>
-                        <div className="flex gap-2 items-center px-2 hover:bg-slate-300 py-2">
+                        <div className="flex gap-4 items-center px-6 hover:bg-slate-300 py-2">
                             <IoMdCall size={20} />
-                            <h3 className="text-lg ">clear history {id} {id?"id ispresent ":" no id"} </h3>
+                            <h3 className="text-lg ">Video Call   </h3>
                         </div>
-                        <div className="flex gap-2 items-center px-2 hover:bg-slate-300 py-2">
+                        <div className="flex gap-4 items-center px-6 hover:bg-slate-300 py-2">
                             <IoMdCall size={20} />
                             <h3 className="text-lg ">clear history </h3>
                         </div>
-                        <div className="flex gap-2 items-center px-2 hover:bg-slate-300 py-2">
+                        <div className="flex gap-4 items-center px-6 hover:bg-slate-300 py-2">
                             <IoMdCall size={20} />
-                            <h3 className="text-lg ">clear history </h3>
+                            <h3 className="text-lg ">Change colors  </h3>
+                        </div>
+                        <div className="flex gap-4 items-center px-6 hover:bg-slate-300 py-2">
+                            <IoMdCall size={20} />
+                            <h3 className="text-lg ">Delete Chat</h3>
+                        </div>
+                        <div className="flex gap-4 items-center px-6 hover:bg-slate-300 py-2">
+                            <IoMdCall size={20} />
+                            <h3 className="text-lg ">Search </h3>
                         </div>
                     </div>
+                </div>
+                <div className="chattop__navbar flex  h-[60px] bg-slate-800 shadow fixed top-0 left-0 
+            text-white container mx-auto gap-4 items-center ">
+
                     <div className="flex-none h-[40px] w-[40px] flex items-center justify-center" >
                         <MdArrowBack size={25} color="white" onClick={() => navigate(-1)} />
                     </div>
                     <div className="flex-none h-[40px] w-[40px] flex items-center justify-center rounded-full bg-gradient-to-r from-orange-600 to-orange-400" >
-                    {currentUser?.imgurl?  <div className="image-container">
-                    <img className='h-full w-full object-cover'
-                     src={currentUser?.imgurl}
-                        alt="user" />
-                </div> :<h3 className="text-lg uppercase">{currentUser?.name?.slice(0,1)}   </h3> 
-                    
-                    }
-                        
-                        
+                        {currentUser?.imgurl ? <div className="image-container" >
+                            <img className='h-full w-full object-cover'
+                                src={currentUser?.imgurl}
+                                alt="user" />
+                        </div> : <h3 className="text-lg uppercase whitespace-nowrap
+                        overflow-hidden line-clamp-1">{currentUser?.name?.slice(0, 1)}   </h3>
+
+                        }
+
+
                     </div>
-                    <div className="flex flex-col " style={{ flex: 1 }} onClick={handleState}>
-                     
-                        <h2 className="text-xl">{currentUser?.name}</h2>
+                    <div className="flex flex-col flex-1 overflow-hidden" style={{ flex: 1 }} onClick={handleState}>
+
+                        <h2 className="text-xl whitespace-nowrap overflow-hidden w-full">{currentUser?.name}</h2>
                         <p className="text-slate-400 leading-3">{currentUser?.lastseen}</p>
                     </div>
                     <div className="flex justify-between items-center gap-3 " style={{ flex: "none" }}>
                         <div className="icon"><IoMdCall size={25} /></div>
-                        <div className="icon"><HiOutlineDotsVertical size={25} onClick={() => setOpt(!opt)} /></div>
+                        <div className="icon"><HiOutlineDotsVertical size={25} onClick={(e) => [changeClassList(), e.stopPropagation()]} /></div>
                     </div>
                 </div>
-                <div className="chat__container mt-[60px] " style={{
+                <div className="chat__container mt-[60px] pb-[10rem] overflow-auto" style={{
                     height: "calc(100svh - 60px)"
 
                 }}>
-                {currentUser?.textmessages?.map((message,index)=>{
-                
-                if("user" in message){
-                 return   <Send message={message.user}/>
-                }
-                return <Recieve message={message.me}/>
-                
-                })}
+                    {currentUser?.textmessages?.map((message, index) => {
+
+                        return (
+                            <div className={` flex px-1 ${selected.includes(index) ? "bg-blue-200" : "bg-white"}`} key={index} onTouchStart={() => handleTouchStart(index)} onTouchEnd={handleTouchEnd}>
+                                <div className={`icon text-lg ${selected.includes(index) ? "block" : "hidden"}`}>0</div>
+
+                                {
+                                    ("user" in message) ? <Send message={message.user || "message failed"} /> :
+                                        <Recieve message={message.me || "no message for user"} />}
+                            </div>
+                        )
+
+
+                    })}
 
                 </div>
 
                 <div className="fixed bottom-0 w-full shadow-2xl bg-white dark:bg-slate-600 left-0  
             flex items-center justify-center px-4
-            gap-2
+            gap-2 min-h-[50px]
             
          py-1 z-40">
 
-                    <span className='w-[30px] h-[30px]'><BsEmojiSmile size={25} className="text-slate-300" /></span>
-                    <div className="input-container  focus:border-2 h-[40px] " style={{ flex: 1 }}>
-                        <input type="text" name="text" id="text" placeholder='Message ' className='h-full pl-[1rem] w-full bg-transparent' />
+                    <span className='w-[30px] h-[30px]'><BsEmojiSmile onClick={() => setBol(true)} size={25} className="text-slate-300" /></span>
+                    <div className="input-container  focus:shadow-2xl h-[40px] " style={{ flex: 1 }}>
+                        <input type="text" name="text" id="text" placeholder='Message ' value={text} onChange={handleTextChange}
+                            className='h-full pl-[1rem] w-full bg-transparent border-0 focus:border-none focus:outline-none focus:shadow-lg' />
                     </div>
-                    <span className='w-[25px] h-[30px] flex-none flex items-center justify-center'
-                    ><IoIosAttach size={25} className="text-slate-300 rotate-45" /></span>
-                    <span className='w-[25px] h-[30px] flex-none flex items-center justify-center' onClick={() => _set_M(!_toggleMic)}
-                    >{_toggleMic ? <BsMic size={25} className="text-slate-300" /> : <CiInstagram size={28} className="text-slate-300" />}</span>
+
+                    {
+
+
+                        text.trim().length > 0 ? <IoMdSend onClick={handleTextSend}
+                            size={30} className={`text-blue-400 transition-all duration-[3s]
+                        ${text.trim().length > 0 ? "translate-x-0" : "translate-x-4"} `} /> :
+                            <>
+                                <span className='w-[25px] h-[30px] flex-none flex items-center justify-center'
+                                ><IoIosAttach size={25} className="text-slate-300 rotate-45" /></span>
+                                <span className='w-[25px] h-[30px] flex-none flex items-center justify-center' onClick={() => _set_M(!_toggleMic)}
+                                >{_toggleMic ? <BsMic size={25} className="text-slate-300" /> : <CiInstagram size={28} className="text-slate-300" />}</span>
+                            </>
+                    }
+
+
                 </div>
 
 
@@ -199,15 +333,15 @@ setCurrentUser(baseuser)
                         <div className="text-slate-500">Mobile</div>
                     </div>
                     <div className="flex justify-between py-4 shadow-b dark:shadow-d">
-                    
-                    <div className="space-y-1">
-                    
-                    <h4 className="text-black dark:text-white">
-                    Notifications
-                    </h4>
-                    <h5 className="text-slate-400 text-sm ">On</h5>
-                    </div>
-                    
+
+                        <div className="space-y-1">
+
+                            <h4 className="text-black dark:text-white">
+                                Notifications
+                            </h4>
+                            <h5 className="text-slate-400 text-sm ">On</h5>
+                        </div>
+
                     </div>
                 </div>
 

@@ -2,6 +2,7 @@ import { createStore } from "redux"
 const initialState = {
         bool: true,
         sidebar: false,
+        isArchive: false,
         payload: {
             print: "hello sand"
         }
@@ -23,6 +24,13 @@ const changeTheme = () => {
         document.documentElement.classList.toggle('dark')
     }, 450);
 }
+const toggleState = (initialState) => {
+    setTimeout(() => {
+
+    }, 1000);
+
+
+}
 const themeReducer = (initialState, action) => {
     switch (action.type) {
         case "theme-toggle":
@@ -30,6 +38,14 @@ const themeReducer = (initialState, action) => {
             return {...initialState, bool: !initialState.bool }
         case "side-bar":
             return {...initialState, sidebar: !initialState.sidebar }
+        case "side-on":
+            return {...initialState, sidebar: true }
+        case "side-off":
+            return {...initialState, sidebar: false }
+        case "toggle-on":
+            return {...initialState, isArchive: true }
+        case "toggle-off":
+            return {...initialState, isArchive: false }
         default:
             return initialState
     }

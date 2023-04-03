@@ -17,6 +17,10 @@ module.exports = {
 
                 "b": "0 0.2px 0px rgba(255,255,255,0.2)",
                 "d": "0 0.2px 0px rgba(0,0,0,0.6)",
+            },
+            backgroundColor: {
+
+                "telegram-light": "#6cc1e3"
             }
         },
     },
