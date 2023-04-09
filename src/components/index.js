@@ -10,5 +10,7 @@ export { default as Send }
 from './Send'
 export { default as Recieve }
 from './Recieve'
+export { default as Contact }
+from './Contact'
 export { default as SearchOverlay }
 from './SearchOverlay'

@@ -3,7 +3,9 @@ import {  AiOutlinePlus } from 'react-icons/ai'
 import { useDispatch, useSelector } from 'react-redux'
 import { useState, useRef } from 'react'
 import Icons from '../Constants/listIcons'
+import { useNavigate } from 'react-router-dom'
 const SideBar = () => {
+const navigate=useNavigate()
   const theme = useSelector(state => state.bool)
   const [_logout, _setLogout] = useState(false)
   const dispatch = useDispatch()
@@ -26,7 +28,7 @@ const SideBar = () => {
       _ref.current.classList.add("scale-down")
   }
   return (
-    <div className={`fixed h-screen sidenavmaincontainer
+    <div className={`fixed h-screen sidenavmaincontainer bg-opacity-50 bg-black
     z-40 top-0 w-full ${sidebar ? "active" : ""}`} onClick={togglesidebarfunc} > 
       <div className={`absolute z-40  w-1 h-1 rounded-full top-7 `} style={{
         left: "var(--m-scale)", background: theme ? "rgba(0,0,0,0.7)" : "rgba(255,255,255,0.6)",
@@ -76,7 +78,7 @@ const SideBar = () => {
 
             <div className="px-4 flex gap-4 py-2 my-1 transition-all  duration-500
           hover:bg-slate-700" >
-              <AiOutlinePlus size={25} className="text-slate-500" />
+              <AiOutlinePlus size={25} className="text-slate-500" onClick={()=>navigate("/auth")}/>
               <h3 className="text-lg text-white">Add Account </h3>
             </div>
           </div>
