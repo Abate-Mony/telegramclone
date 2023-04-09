@@ -1,0 +1,13 @@
+@keyframes scaleimage {
+    from {
+        scale: 0.5
+    }
+    to {
+        scale: 2;
+        rotate: 360deg;
+    }
+}
+
+.scale-image {
+    animation: scaleimage 2s infinite alternate;
+}
