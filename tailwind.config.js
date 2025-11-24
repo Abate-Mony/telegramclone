@@ -21,7 +21,11 @@ module.exports = {
             backgroundColor: {
 
                 "telegram-light": "#6cc1e3"
-            }
+            },
+       backgroundImage: {
+  'telegram-blue-gradient': 'linear-gradient(to top, #2AABEE, #B3D8FF)',
+}
+
         },
     },
     darkMode: 'class',

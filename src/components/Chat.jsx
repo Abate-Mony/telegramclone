@@ -82,7 +82,7 @@ const Chat = ({ user, id }) => {
                         alt="user" />
 
                 </div> */}
-                <div className="text-box shadow-d dark:shadow-b pb-1 capitalize overflow-hidden " style={{ flex: "1" }}>
+                <div className="text-box border-b-[1px] pb-2 -shadow-d dark:shadow-b  capitalize overflow-hidden  " style={{ flex: "1" }}>
                     <div className="flex  justify-between leading-3">
                         <h3 className="text-lg font-manrope line-clamp-1 max-w-[200px] overflow-hidden text-dark dark:text-white">{user.name} </h3>
                         <span className="text-sm text-slate-500 "> {user?.lastmessage?.time}</span>

@@ -10,6 +10,7 @@ import { useState, useEffect, useRef } from 'react'
 import users from '../Constants/User'
 import { IoMdSend } from 'react-icons/io'
 import EmojiPicker from 'emoji-picker-react'
+import Message from '../components/Message'
 const Chat = () => {
     const id = useParams().id
     const _ref = useRef(null)
@@ -220,7 +221,8 @@ const Chat = () => {
 
 
                     </div>
-                    <div className="flex flex-col flex-1 overflow-hidden" style={{ flex: 1 }} onClick={handleState}>
+                    <div className="flex flex-col flex-1 overflow-hidden" style={{ flex: 1 }} onClick={handleState}
+                    >
 
                         <h2 className="text-xl whitespace-nowrap overflow-hidden w-full">{currentUser?.name}</h2>
                         <p className="text-slate-400 leading-3">{currentUser?.lastseen}</p>
@@ -230,19 +232,23 @@ const Chat = () => {
                         <div className="icon"><HiOutlineDotsVertical size={25} onClick={(e) => [changeClassList(), e.stopPropagation()]} /></div>
                     </div>
                 </div>
-                <div className="chat__container mt-[60px] pb-[10rem] overflow-auto" style={{
-                    height: "calc(100svh - 60px)"
+                <div className="chat__container !bg-telegram-blue-gradient-  mt-[60px] pb-[10rem] overflow-auto" style={{
+                    height: "calc(100svh - 60px)",
+                    backgroundImage:'url(/telegram-bg.jpg)',
+                    backgroundSize:'cover',
+                    backgroundPosition:'center'
 
                 }}>
                     {currentUser?.textmessages?.map((message, index) => {
 
                         return (
-                            <div className={` flex px-1 ${selected.includes(index) ? "bg-blue-200" : "bg-white"}`} key={index} onTouchStart={() => handleTouchStart(index)} onTouchEnd={handleTouchEnd}>
+                            <div className={` flex px-1 ${selected.includes(index) ? "bg-blue-200" : "bg-transparent"}`} key={index} 
+                            // onTouchStart={() => handleTouchStart(index)} onTouchEnd={handleTouchEnd}
+                            >
                                 <div className={`icon text-lg ${selected.includes(index) ? "block" : "hidden"}`}>0</div>
 
-                                {
-                                    ("user" in message) ? <Send message={message.user || "message failed"} /> :
-                                        <Recieve message={message.me || "no message for user"} />}
+                                {       
+                                    <Message  message={message}/>}
                             </div>
                         )
 
@@ -251,7 +257,10 @@ const Chat = () => {
 
                 </div>
 
-                <div className="fixed bottom-0 w-full shadow-2xl bg-white dark:bg-slate-600 left-0  
+                <div className="fixed bottom-0 w-full max-w-[calc(100%-1rem)] rounded-full mb-2 
+                left-1/2
+                translate-x-[-50%]
+                shadow-2xl bg-white dark:bg-slate-600  
             flex items-center justify-center px-4
             gap-2 min-h-[50px]
             
@@ -281,7 +290,7 @@ const Chat = () => {
                 </div>
 
 
-            </div> : <div className='min-h-screen  overflow-y-auto bg-white dark:bg-slate-800' ref={_ref}>
+            </div> : <div className='min-h-screen  overflow-y-auto  dark:bg-slate-800' ref={_ref}>
 
                 <div className="top-nav-bar
                 bg-blue-300 dark:bg-slate-700 py-2 

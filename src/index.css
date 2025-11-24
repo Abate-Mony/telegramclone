@@ -5,8 +5,9 @@
 :root {
     --ff-manrope: "Manrope", sans-serif;
     --ff-poppins: "Poppins", sans-serif;
-    --min-width: min(330px, calc(100vw - 30px));
+    --min-width: min(330px, calc(100vw - 70px));
     --m-scale: calc(var(--min-width) - 30px);
+    --snd-msg-bg:rgb(227,254,224);
 }
 
 * {
@@ -79,7 +80,9 @@ body {
 .usersidenavwidth {
     width: var(--min-width);
 }
-
+.snd-msg-bg {
+    background-color: var(--snd-msg-bg);
+}
 .userimagewidth img {
     @apply w-full h-full object-cover;
 }
@@ -103,6 +106,17 @@ body {
         animation-duration: 0.5s;
         /* animation-fill-mode: both; */
     }
+    /* Define a subtle repeating pattern (dots or lines) */
+    .bg-chat-pattern {
+        /*
+        This creates a subtle repeating texture effect using CSS background properties.
+        Feel free to adjust the size and color for different styles.
+        */
+        background-image: 
+            radial-gradient(circle at 1px 1px, rgba(0, 0, 0, 0.08) 1px, transparent 0),
+            radial-gradient(circle at 1px 1px, rgba(0, 0, 0, 0.08) 1px, transparent 0);
+        background-size: 8px 8px; /* Size of the repeating tile */
+    }
 }
 
 .sidenavmaincontainer {
@@ -125,4 +139,7 @@ body {
         @apply opacity-100;
         /* transform: translateX(0rem); */
     }
+}
+.single_msg {
+    border-radius: 1rem;
 }
