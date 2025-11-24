@@ -63,7 +63,7 @@ const users = [
         ]
     },
     {
-        "name": "Jeff bezos",
+        "name": "Bryan Mbe",
         lastmessage: {
             time: "00:09 am",
             msgcnt: 1,
@@ -82,7 +82,7 @@ const users = [
             { "user": "10:00 AM EST. Please don't be late again, the shareholders talk.", timestamp: 1732564320000, "imgurl": null },
             { "me": "Never! I'll be there... via satellite link from the Maldives. hello fellow billionare !", timestamp: 1732564440000, "imgurl": null }
         ],
-        imgurl: "https://th.bing.com/th/id/OIP._lT3NKK_KV9nv4_HbGHsFgHaJL?w=141&h=180&c=7&r=0&o=5&pid=1.7"
+        imgurl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR5TMYnd9_NpZqiYNA1d0WjK11qv6ohMW666g&s"
     },
     {
         "name": "ako doris ayuk",
