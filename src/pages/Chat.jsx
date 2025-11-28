@@ -6,6 +6,7 @@ import { IoIosAttach, IoMdCall } from 'react-icons/io'
 import { CiInstagram } from 'react-icons/ci'
 import { HiOutlineDotsVertical } from 'react-icons/hi'
 import { BsChevronRight } from 'react-icons/bs'
+import { AiOutlineMenu } from 'react-icons/ai'
 import { useState, useEffect, useRef } from 'react'
 import users from '../Constants/User'
 import { IoMdSend } from 'react-icons/io'
@@ -143,7 +144,7 @@ const Chat = () => {
     return (
 
         <>{chng ?
-            <div className='select-none fadein' >
+            <div className='select-none fadein flex h-screen' >
                 <div className={`fixed bottom-0 z-50 w-full h-full  left-0 bg-slate-300
                 ${bol ? "block" : "hidden"}`} onClick={()=>setBol(false)}>
                     <div className="absolute bottom-0 w-full left-0" onClick={e=>e.stopPropagation()}>
@@ -203,8 +204,62 @@ const Chat = () => {
                         </div>
                     </div>
                 </div>
-                <div className="chattop__navbar flex h-[56px] bg-white shadow-sm fixed top-0 left-0 w-full
-            text-gray-800 container mx-auto gap-3 items-center px-3 z-40">
+                {/* Chat List Sidebar */}
+                <div className="w-[420px] border-r border-gray-200 flex flex-col h-screen bg-white">
+                    {/* Sidebar Header */}
+                    <div className="flex h-[56px] items-center px-4 gap-3 border-b border-gray-100">
+                        <div className="flex-none flex items-center justify-center w-[40px] h-[40px] rounded-full hover:bg-gray-100 transition-colors cursor-pointer">
+                            <AiOutlineMenu size={22} color="#707579" />
+                        </div>
+                        <div className="flex-1">
+                            <div className="relative">
+                                <input 
+                                    type="text" 
+                                    placeholder="Search" 
+                                    className="w-full bg-gray-100 rounded-full px-4 py-2 text-sm focus:outline-none focus:bg-white focus:ring-1 focus:ring-blue-400"
+                                />
+                            </div>
+                        </div>
+                    </div>
+                    
+                    {/* Chat List */}
+                    <div className="flex-1 overflow-y-auto">
+                        {users?.map((user, idx) => (
+                            <div 
+                                key={idx}
+                                onClick={() => setCurrentUser(user)}
+                                className={`flex py-2 px-3 gap-3 hover:bg-gray-100 cursor-pointer transition-colors ${currentUser?.id === user.id ? 'bg-blue-50' : ''}`}
+                            >
+                                <div className="flex-none h-[50px] w-[50px] flex items-center justify-center rounded-full bg-gradient-to-br from-blue-400 to-purple-500">
+                                    {user?.imgurl ? (
+                                        <img className='h-full w-full object-cover rounded-full' src={user?.imgurl} alt="user" />
+                                    ) : (
+                                        <h3 className="text-lg font-medium text-white uppercase">{user?.name?.slice(0, 1)}</h3>
+                                    )}
+                                </div>
+                                <div className="text-box border-b-[1px] border-gray-100 pb-3 overflow-hidden flex-1">
+                                    <div className="flex justify-between items-start leading-5 mb-1">
+                                        <h3 className="text-[15px] font-normal line-clamp-1 max-w-[200px] overflow-hidden text-gray-900">{user.name}</h3>
+                                        <span className="text-[13px] text-gray-400 ml-2 flex-shrink-0">{user?.lastmessage?.time}</span>
+                                    </div>
+                                    <div className="flex justify-between items-center leading-5 mt-1">
+                                        <h3 className="text-[14px] text-gray-500 line-clamp-1 flex-1">{user?.lastmessage?.message}</h3>
+                                        {user.lastmessage.msgcnt > 0 && (
+                                            <span className="text-[12px] font-medium text-white min-w-[20px] px-1.5 h-[20px] bg-[#2AABEE] rounded-full flex items-center justify-center ml-2 flex-shrink-0">
+                                                {user.lastmessage.msgcnt}
+                                            </span>
+                                        )}
+                                    </div>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+
+                {/* Chat View */}
+                <div className="flex-1 flex flex-col h-screen bg-[#E5DDD5]">
+                <div className="chattop__navbar flex h-[56px] bg-white shadow-sm w-full
+            text-gray-800 gap-3 items-center px-3 z-40">
 
                     <div className="flex-none h-[40px] w-[40px] flex items-center justify-center cursor-pointer hover:bg-gray-100 rounded-full transition-colors" >
                         <MdArrowBack size={24} color="#707579" onClick={() => navigate(-1)} />
@@ -233,9 +288,7 @@ const Chat = () => {
                         <div className="icon cursor-pointer hover:bg-gray-100 rounded-full p-2 transition-colors"><HiOutlineDotsVertical size={20} color="#707579" onClick={(e) => [changeClassList(), e.stopPropagation()]} /></div>
                     </div>
                 </div>
-                <div className="chat__container mt-[56px] pb-[5rem] overflow-auto" style={{
-                    height: "calc(100svh - 56px)",
-                    backgroundColor: '#E5DDD5',
+                <div className="chat__container flex-1 pb-[5rem] overflow-auto" style={{
                     backgroundImage: 'url(/telegram-bg.jpg)',
                     backgroundSize: 'cover',
                     backgroundPosition: 'center',
@@ -259,7 +312,7 @@ const Chat = () => {
 
                 </div>
 
-                <div className="fixed bottom-0 w-full pb-3 z-40">
+                <div className="w-full pb-3 bg-transparent">
                     <div className="flex items-end gap-2 max-w-4xl mx-auto px-4">
                         {/* Main input container */}
                         <div className="flex-1 flex items-center bg-white rounded-3xl shadow-md px-3 py-2 gap-2 min-h-[46px]">
@@ -299,6 +352,7 @@ const Chat = () => {
                             )}
                         </div>
                     </div>
+                </div>
                 </div>
 
 
