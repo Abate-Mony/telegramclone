@@ -63,7 +63,7 @@ return reset()
     return (
 
         <div className="home-height
-         overflow-auto select-none  bg-white
+         overflow-auto select-none bg-white
           dark:bg-slate-800 pt-4" onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd} onTouchMove={handleTouchMove}>
             <Button />
             <SideBar />

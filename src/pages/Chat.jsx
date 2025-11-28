@@ -1,7 +1,7 @@
 import { MdArrowBack } from 'react-icons/md'
 import { useNavigate, useParams } from "react-router-dom"
 import { Send, Recieve } from '../components'
-import { BsEmojiSmile, BsMic } from 'react-icons/bs'
+import { BsEmojiSmile, BsMic, BsSearch } from 'react-icons/bs'
 import { IoIosAttach, IoMdCall } from 'react-icons/io'
 import { CiInstagram } from 'react-icons/ci'
 import { HiOutlineDotsVertical } from 'react-icons/hi'
@@ -203,90 +203,102 @@ const Chat = () => {
                         </div>
                     </div>
                 </div>
-                <div className="chattop__navbar flex  h-[60px] bg-slate-800 shadow fixed top-0 left-0 
-            text-white container mx-auto gap-4 items-center ">
+                <div className="chattop__navbar flex h-[56px] bg-white shadow-sm fixed top-0 left-0 w-full
+            text-gray-800 container mx-auto gap-3 items-center px-3 z-40">
 
-                    <div className="flex-none h-[40px] w-[40px] flex items-center justify-center" >
-                        <MdArrowBack size={25} color="white" onClick={() => navigate(-1)} />
+                    <div className="flex-none h-[40px] w-[40px] flex items-center justify-center cursor-pointer hover:bg-gray-100 rounded-full transition-colors" >
+                        <MdArrowBack size={24} color="#707579" onClick={() => navigate(-1)} />
                     </div>
-                    <div className="flex-none h-[40px] w-[40px] flex items-center justify-center rounded-full bg-gradient-to-r from-orange-600 to-orange-400" >
+                    <div className="flex-none h-[42px] w-[42px] flex items-center justify-center rounded-full bg-gradient-to-br from-blue-400 to-purple-500 cursor-pointer" onClick={handleState}>
                         {currentUser?.imgurl ? <div className="image-container" >
-                            <img className='h-full w-full object-cover'
+                            <img className='h-full w-full object-cover rounded-full'
                                 src={currentUser?.imgurl}
                                 alt="user" />
-                        </div> : <h3 className="text-lg uppercase whitespace-nowrap
-                        overflow-hidden line-clamp-1">{currentUser?.name?.slice(0, 1)}   </h3>
+                        </div> : <h3 className="text-base font-medium text-white uppercase whitespace-nowrap
+                        overflow-hidden line-clamp-1">{currentUser?.name?.slice(0, 1)}</h3>
 
                         }
 
 
                     </div>
-                    <div className="flex flex-col flex-1 overflow-hidden" style={{ flex: 1 }} onClick={handleState}
+                    <div className="flex flex-col flex-1 overflow-hidden cursor-pointer" style={{ flex: 1 }} onClick={handleState}
                     >
 
-                        <h2 className="text-xl whitespace-nowrap overflow-hidden w-full">{currentUser?.name}</h2>
-                        <p className="text-slate-400 leading-3">{currentUser?.lastseen}</p>
+                        <h2 className="text-[15px] font-medium whitespace-nowrap overflow-hidden w-full text-gray-900">{currentUser?.name}</h2>
+                        <p className="text-gray-500 leading-4 text-[13px]">{currentUser?.lastseen}</p>
                     </div>
-                    <div className="flex justify-between items-center gap-3 " style={{ flex: "none" }}>
-                        <div className="icon"><IoMdCall size={25} /></div>
-                        <div className="icon"><HiOutlineDotsVertical size={25} onClick={(e) => [changeClassList(), e.stopPropagation()]} /></div>
+                    <div className="flex justify-between items-center gap-1 " style={{ flex: "none" }}>
+                        <div className="icon cursor-pointer hover:bg-gray-100 rounded-full p-2 transition-colors"><BsSearch size={20} color="#707579" /></div>
+                        <div className="icon cursor-pointer hover:bg-gray-100 rounded-full p-2 transition-colors"><IoMdCall size={20} color="#707579" /></div>
+                        <div className="icon cursor-pointer hover:bg-gray-100 rounded-full p-2 transition-colors"><HiOutlineDotsVertical size={20} color="#707579" onClick={(e) => [changeClassList(), e.stopPropagation()]} /></div>
                     </div>
                 </div>
-                <div className="chat__container !bg-telegram-blue-gradient-  mt-[60px] pb-[10rem] overflow-auto" style={{
-                    height: "calc(100svh - 60px)",
-                    backgroundImage:'url(/telegram-bg.jpg)',
-                    backgroundSize:'cover',
-                    backgroundPosition:'center'
-
+                <div className="chat__container mt-[56px] pb-[5rem] overflow-auto" style={{
+                    height: "calc(100svh - 56px)",
+                    backgroundColor: '#E5DDD5',
+                    backgroundImage: 'url(/telegram-bg.jpg)',
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center',
+                    backgroundBlendMode: 'overlay'
                 }}>
-                    {currentUser?.textmessages?.map((message, index) => {
+                    <div className="max-w-4xl mx-auto px-4">
+                        {currentUser?.textmessages?.map((message, index) => {
 
-                        return (
-                            <div className={` flex px-1 ${selected.includes(index) ? "bg-blue-200" : "bg-transparent"}`} key={index} 
-                            // onTouchStart={() => handleTouchStart(index)} onTouchEnd={handleTouchEnd}
-                            >
-                                <div className={`icon text-lg ${selected.includes(index) ? "block" : "hidden"}`}>0</div>
-
-                                {       
-                                    <Message  message={message}/>}
-                            </div>
-                        )
+                            return (
+                                <div className={`${selected.includes(index) ? "bg-blue-200" : "bg-transparent"}`} key={index} 
+                                // onTouchStart={() => handleTouchStart(index)} onTouchEnd={handleTouchEnd}
+                                >
+                                    <div className={`icon text-lg ${selected.includes(index) ? "block" : "hidden"}`}>0</div>
+                                    <Message  message={message}/>
+                                </div>
+                            )
 
 
-                    })}
+                        })}
+                    </div>
 
                 </div>
 
-                <div className="fixed bottom-0 w-full max-w-[calc(100%-1rem)] rounded-full mb-2 
-                left-1/2
-                translate-x-[-50%]
-                shadow-2xl bg-white dark:bg-slate-600  
-            flex items-center justify-center px-4
-            gap-2 min-h-[50px]
-            
-         py-1 z-40">
+                <div className="fixed bottom-0 w-full pb-3 z-40">
+                    <div className="flex items-end gap-2 max-w-4xl mx-auto px-4">
+                        {/* Main input container */}
+                        <div className="flex-1 flex items-center bg-white rounded-3xl shadow-md px-3 py-2 gap-2 min-h-[46px]">
+                            <span className='w-[30px] h-[30px] cursor-pointer flex items-center justify-center'>
+                                <BsEmojiSmile onClick={() => setBol(true)} size={22} className="text-gray-500 hover:text-gray-700 transition-colors" />
+                            </span>
+                            
+                            <div className="input-container flex-1 h-[32px]">
+                                <input 
+                                    type="text" 
+                                    name="text" 
+                                    id="text" 
+                                    placeholder='Message' 
+                                    value={text} 
+                                    onChange={handleTextChange}
+                                    className='h-full px-2 w-full bg-transparent border-0 focus:border-none focus:outline-none text-gray-800 placeholder-gray-400 text-[15px]' 
+                                />
+                            </div>
 
-                    <span className='w-[30px] h-[30px]'><BsEmojiSmile onClick={() => setBol(true)} size={25} className="text-slate-300" /></span>
-                    <div className="input-container  focus:shadow-2xl h-[40px] " style={{ flex: 1 }}>
-                        <input type="text" name="text" id="text" placeholder='Message ' value={text} onChange={handleTextChange}
-                            className='h-full pl-[1rem] w-full bg-transparent border-0 focus:border-none focus:outline-none focus:shadow-lg' />
+                            {text.trim().length === 0 && (
+                                <span className='w-[30px] h-[30px] flex items-center justify-center cursor-pointer'>
+                                    <IoIosAttach size={22} className="text-gray-500 rotate-45 hover:text-gray-700 transition-colors" />
+                                </span>
+                            )}
+                        </div>
+
+                        {/* Separate mic/send button */}
+                        <div className="flex-none">
+                            {text.trim().length > 0 ? (
+                                <div className="w-[46px] h-[46px] bg-[#2AABEE] rounded-full flex items-center justify-center cursor-pointer hover:bg-[#2499d4] transition-colors shadow-md" onClick={handleTextSend}>
+                                    <IoMdSend size={22} className="text-white" />
+                                </div>
+                            ) : (
+                                <div className="w-[46px] h-[46px] bg-white rounded-full flex items-center justify-center cursor-pointer hover:bg-gray-100 transition-colors shadow-md" onClick={() => _set_M(!_toggleMic)}>
+                                    {_toggleMic ? <BsMic size={22} className="text-gray-500" /> : <CiInstagram size={26} className="text-gray-500" />}
+                                </div>
+                            )}
+                        </div>
                     </div>
-
-                    {
-
-
-                        text.trim().length > 0 ? <IoMdSend onClick={handleTextSend}
-                            size={30} className={`text-blue-400 transition-all duration-[3s]
-                        ${text.trim().length > 0 ? "translate-x-0" : "translate-x-4"} `} /> :
-                            <>
-                                <span className='w-[25px] h-[30px] flex-none flex items-center justify-center'
-                                ><IoIosAttach size={25} className="text-slate-300 rotate-45" /></span>
-                                <span className='w-[25px] h-[30px] flex-none flex items-center justify-center' onClick={() => _set_M(!_toggleMic)}
-                                >{_toggleMic ? <BsMic size={25} className="text-slate-300" /> : <CiInstagram size={28} className="text-slate-300" />}</span>
-                            </>
-                    }
-
-
                 </div>
 
 

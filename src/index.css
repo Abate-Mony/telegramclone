@@ -7,7 +7,11 @@
     --ff-poppins: "Poppins", sans-serif;
     --min-width: min(330px, calc(100vw - 70px));
     --m-scale: calc(var(--min-width) - 30px);
-    --snd-msg-bg:rgb(227,254,224);
+    --snd-msg-bg: #DCF8C6;
+    --rcv-msg-bg: #FFFFFF;
+    --telegram-blue: #2AABEE;
+    --chat-bg: #E5DDD5;
+    --hover-bg: #F5F5F5;
 }
 
 * {
