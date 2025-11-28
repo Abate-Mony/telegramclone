@@ -36,7 +36,7 @@ const navigate=useNavigate()
       <div className={`sidebarcontainer z-10  bg-white 
       dark:bg-slate-800 h-full pb-4  ${sidebar ? "active shadow-md" : ""}
     `} onClick={stopPropagation}>
-        <div className="m-0 py-0 bg-blue-400 dark:bg-slate-600 px-4 pt-5 pb-2">
+        <div className="m-0 py-0 bg-[#2AABEE] dark:bg-slate-600 px-4 pt-5 pb-2">
 
           <div className="flex  mx-auto  justify-between ">
             <div className="image-container" style={{ "--size": "60px" }}>

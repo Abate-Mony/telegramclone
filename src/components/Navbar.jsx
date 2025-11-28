@@ -7,20 +7,20 @@ const Navbar = () => {
 const dispatch =useDispatch()
 const toggleSideBar=()=>dispatch({type:"side-bar"})
   return (
-    <div className="fixed w-full left-0 right-0 top-0 shadow-lg">
+    <div className="fixed w-full left-0 right-0 top-0 shadow-sm bg-white dark:bg-slate-800 z-30">
     {/* <SearchOverlay/> */}
-      <div className="flex items-center h-[60px] gap-4 text-white bg-blue-400 dark:bg-slate-600 container"
+      <div className="flex items-center h-[60px] gap-4 text-gray-800 dark:text-white container px-4"
       >
         <div className="flex-none flex items-center 
-      justify-center  w-[40px] h-[40px] rounded-full
-      hover:bg-slate-300 transition-bg">
-          <AiOutlineMenu size={20} onClick={toggleSideBar} />
+      justify-center w-[40px] h-[40px] rounded-full
+      hover:bg-gray-100 dark:hover:bg-slate-700 transition-bg cursor-pointer">
+          <AiOutlineMenu size={22} onClick={toggleSideBar} />
         </div>
-        <h1 className="text-2xl font-manrope" style={{ flex: "1" }}>Telegram</h1>
+        <h1 className="text-xl font-medium" style={{ flex: "1" }}>Telegram</h1>
         <div className="flex-none flex items-center 
-      justify-center  w-[40px] h-[40px] rounded-full
-      hover:bg-slate-300 transition-bg">
-          <BiSearch size={20} />
+      justify-center w-[40px] h-[40px] rounded-full
+      hover:bg-gray-100 dark:hover:bg-slate-700 transition-bg cursor-pointer">
+          <BiSearch size={22} />
         </div>
       </div>
     </div>

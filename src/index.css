@@ -7,7 +7,11 @@
     --ff-poppins: "Poppins", sans-serif;
     --min-width: min(330px, calc(100vw - 70px));
     --m-scale: calc(var(--min-width) - 30px);
-    --snd-msg-bg:rgb(227,254,224);
+    --snd-msg-bg: #DCF8C6;
+    --rcv-msg-bg: #FFFFFF;
+    --telegram-blue: #2AABEE;
+    --chat-bg: #E5DDD5;
+    --hover-bg: #F5F5F5;
 }
 
 * {
@@ -142,4 +146,70 @@ body {
 }
 .single_msg {
     border-radius: 1rem;
+}
+
+/* Message Bubble with Tail */
+.message-bubble {
+    --r: 0.5em;  /* the radius */
+    --t: 0.75em; /* the size of the tail */
+    border-inline: var(--t) solid #0000;
+    border-radius: calc(var(--r) + var(--t))/var(--r);
+    mask: 
+        radial-gradient(100% 100% at var(--_p) 0, #0000 99%, #000 102%) 
+        var(--_p) 100% / var(--t) var(--t) no-repeat,
+        linear-gradient(#000 0 0) padding-box;
+}
+
+.message-bubble:not(.my-message) {
+    --_p: 0;
+    border-bottom-left-radius: 0 0;
+}
+
+.message-bubble.my-message {
+    --_p: 100%;
+    border-bottom-right-radius: 0 0;
+}
+
+/* Custom Scrollbar Styles */
+.custom-scrollbar {
+    scrollbar-width: thin;
+    scrollbar-color: transparent transparent;
+    transition: scrollbar-color 0.3s ease;
+}
+
+.custom-scrollbar:hover {
+    scrollbar-color: rgba(0, 0, 0, 0.2) transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+    width: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+    background: transparent;
+    border-radius: 10px;
+    transition: background 0.3s ease;
+}
+
+.custom-scrollbar:hover::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.2);
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 0, 0, 0.3);
+}
+
+/* Remove scrollbar buttons (arrows) */
+.custom-scrollbar::-webkit-scrollbar-button {
+    display: none;
+    height: 0;
+    width: 0;
+}
+
+.custom-scrollbar::-webkit-scrollbar-corner {
+    background: transparent;
 }

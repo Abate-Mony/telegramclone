@@ -57,19 +57,19 @@ const Chat = ({ user, id }) => {
             <div className={`absolute right-[10px] h-full w-[80px] bg-white top-0 z-10`}>
                 <span className='text-sm text-center'>archive</span>
             </div>
-            <div className="flex  py-2 container mx-auto gap-3 bg-white dark:bg-slate-800
-          duratio overflow-x-hidden
-        hover:bg-slate-300 select-none rounded-lg relative z-10"ref={_ref} >
+            <div className="flex py-2 px-3 container mx-auto gap-3 bg-white dark:bg-slate-800
+          overflow-x-hidden
+        hover:bg-gray-100 dark:hover:bg-slate-700 select-none relative z-10 transition-colors cursor-pointer"ref={_ref} >
 
                 <div className="flex-none 
-    h-[50px] w-[50px] flex items-center justify-center rounded-full bg-gradient-to-r
-    from-orange-600 to-orange-400" >
+    h-[50px] w-[50px] flex items-center justify-center rounded-full bg-gradient-to-br
+    from-blue-400 to-purple-500" >
                     {user?.imgurl ? <div className="image-container" >
                         <img className='h-full w-full object-cover'
                             src={user?.imgurl} onError={handleImageLoadingError}
                             alt="user" />
-                    </div> : <h3 className="text-lg uppercase whitespace-nowrap 
-                        overflow-hidden line-clamp-1 ">{user?.name?.slice(0, 1)}   </h3>
+                    </div> : <h3 className="text-lg font-medium text-white uppercase whitespace-nowrap 
+                        overflow-hidden line-clamp-1">{user?.name?.slice(0, 1)}</h3>
 
                     }
 
@@ -82,16 +82,16 @@ const Chat = ({ user, id }) => {
                         alt="user" />
 
                 </div> */}
-                <div className="text-box border-b-[1px] pb-2 -shadow-d dark:shadow-b  capitalize overflow-hidden  " style={{ flex: "1" }}>
-                    <div className="flex  justify-between leading-3">
-                        <h3 className="text-lg font-manrope line-clamp-1 max-w-[200px] overflow-hidden text-dark dark:text-white">{user.name} </h3>
-                        <span className="text-sm text-slate-500 "> {user?.lastmessage?.time}</span>
+                <div className="text-box border-b-[1px] border-gray-100 dark:border-slate-700 pb-3 overflow-hidden" style={{ flex: "1" }}>
+                    <div className="flex justify-between items-start leading-5 mb-1">
+                        <h3 className="text-[15px] font-normal line-clamp-1 max-w-[200px] overflow-hidden text-gray-900 dark:text-white">{user.name} </h3>
+                        <span className="text-[13px] text-gray-400 dark:text-gray-500 ml-2 flex-shrink-0"> {user?.lastmessage?.time}</span>
                     </div>
                     {/* bottm text box */}
-                    <div className="flex  justify-between leading-3">
-                        <h3 className="text-sm text-slate-500 line-clamp-1" style={{ flex: "1" }}>{user?.lastmessage?.message}</h3>
-                        <span className="text-sm text-white w-[20px]
-    h-[20px] bg-blue-500 rounded-full flex items-center justify-center " >{user.lastmessage.msgcnt}</span>
+                    <div className="flex justify-between items-center leading-5 mt-1">
+                        <h3 className="text-[14px] text-gray-500 dark:text-gray-400 line-clamp-1" style={{ flex: "1" }}>{user?.lastmessage?.message}</h3>
+                        {user.lastmessage.msgcnt > 0 && <span className="text-[12px] font-medium text-white min-w-[20px] px-1.5
+    h-[20px] bg-[#2AABEE] rounded-full flex items-center justify-center ml-2 flex-shrink-0">{user.lastmessage.msgcnt}</span>}
                     </div>
                 </div>
 
