@@ -148,39 +148,26 @@ body {
     border-radius: 1rem;
 }
 
-/* Message Droplet Tail */
-.message-bubble.droplet:before {
-    position: absolute;
-    content: '';
-    bottom: 0;
-    left: -8px;
-    width: 12px;
-    height: 1px;
-    background-color: inherit;
-    z-index: 1;
+/* Message Bubble with Tail */
+.message-bubble {
+    --r: 0.5em;  /* the radius */
+    --t: 0.75em; /* the size of the tail */
+    border-inline: var(--t) solid #0000;
+    border-radius: calc(var(--r) + var(--t))/var(--r);
+    mask: 
+        radial-gradient(100% 100% at var(--_p) 0, #0000 99%, #000 102%) 
+        var(--_p) 100% / var(--t) var(--t) no-repeat,
+        linear-gradient(#000 0 0) padding-box;
 }
 
-.message-bubble.droplet:after {
-    position: absolute;
-    content: '';
-    bottom: 0;
-    left: -10px;
-    width: 16px;
-    height: 10px;
-    clip-path: url(#left-droplet);
-    background-color: inherit;
-    z-index: 1;
+.message-bubble:not(.my-message) {
+    --_p: 0;
+    border-bottom-left-radius: 0 0;
 }
 
-.message-bubble.my-message.droplet:before {
-    right: -8px;
-    left: initial;
-}
-
-.message-bubble.my-message.droplet:after {
-    right: -10px;
-    left: initial;
-    clip-path: url(#right-droplet);
+.message-bubble.my-message {
+    --_p: 100%;
+    border-bottom-right-radius: 0 0;
 }
 
 /* Custom Scrollbar Styles */

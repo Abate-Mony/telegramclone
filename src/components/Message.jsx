@@ -3,9 +3,9 @@ import dayjs from "dayjs";
 const Message = ({message, showTail = true}) => {
   const isUserMessage = "user" in message;
   return (
-    <div className={`flex relative my-[12px] ${!isUserMessage?"justify-start":"justify-end"}`}>
+    <div className={`flex relative my-[10px] ${!isUserMessage?"justify-start":"justify-end"}`}>
     
-    <div className={`message-bubble max-w-[450px] relative w-fit text-[15px] pt-1.5 pb-5 px-2.5 rounded-[10px] shadow-sm ${isUserMessage ? 'snd-msg-bg my-message' : 'bg-white'} ${showTail ? 'droplet' : ''}`}>
+    <div className={`message-bubble max-w-[450px] relative w-fit text-[15px] pt-2 pb-5 px-3 shadow-sm ${isUserMessage ? 'snd-msg-bg my-message' : 'bg-white'}`}>
 
 {
   message.imgurl && <img src={message.imgurl} alt="message-img" className="max-h-72 h-full w-full rounded-md mb-2 object-fit"/>
