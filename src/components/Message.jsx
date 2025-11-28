@@ -1,43 +1,32 @@
 import { IoMdCheckmark } from "react-icons/io";
 import dayjs from "dayjs";
-const Message = ({message}) => {
+const Message = ({message, showTail = true}) => {
   const isUserMessage = "user" in message;
   return (
-    <div className={`flex relative my-1 ${!isUserMessage?"justify-start":"justify-end"}`}>
+    <div className={`flex relative my-[12px] ${!isUserMessage?"justify-start":"justify-end"}`}>
     
-    <div className={`max-w-[450px] relative w-fit pb-5 text-[15px] py-2 px-3 rounded-[20px] shadow-sm ${isUserMessage ? 'snd-msg-bg rounded-br-sm' : 'bg-white rounded-bl-sm'}`}>
-{
-  isUserMessage?    <span className="absolute
-    bottom-0 -right-[8px]
-    w-0 h-0 border-l-[10px] border-l-transparent border-t-[13px] snd-msg-bg
-    "></span>:  
-    <span></span>
-   
-}
+    <div className={`message-bubble max-w-[450px] relative w-fit text-[15px] pt-1.5 pb-5 px-2.5 rounded-[10px] shadow-sm ${isUserMessage ? 'snd-msg-bg my-message' : 'bg-white'} ${showTail ? 'droplet' : ''}`}>
 
 {
   message.imgurl && <img src={message.imgurl} alt="message-img" className="max-h-72 h-full w-full rounded-md mb-2 object-fit"/>
 }
-    <p className="text-gray-900 pr-16 leading-[1.35rem]">
+    <p className="text-gray-900 leading-[1.3rem] pr-14">
    {
 isUserMessage ? message.user : message.me
       }
     </p>
-        <p
-      className="absolute flex items-center gap-x-0.5 bottom-1 right-2"
-      >
-        <span className="text-[11px] text-gray-500 font-normal">{
+    
+    <span className="absolute bottom-1 right-2 inline-flex items-center gap-x-0.5">
+        <span className="text-[11px] text-gray-500 font-normal whitespace-nowrap">{
           dayjs(message.timestamp).format("HH:mm")
           }</span>
         {
-          isUserMessage &&    <span className="flex relative ml-0.5">
+          isUserMessage &&    <span className="inline-flex relative">
           <IoMdCheckmark size={15} className="text-[#4FC3F7]" />
           <IoMdCheckmark size={15} className="-ml-[0.55rem] text-[#4FC3F7]" />
         </span>
         }
-    
-        
-        </p>
+      </span>
     
        </div>
     </div>

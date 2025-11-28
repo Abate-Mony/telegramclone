@@ -213,39 +213,62 @@ const Chat = () => {
                         </div>
                         <div className="flex-1">
                             <div className="relative">
+                                <BsSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={18} />
                                 <input 
                                     type="text" 
                                     placeholder="Search" 
-                                    className="w-full bg-gray-100 rounded-full px-4 py-2 text-sm focus:outline-none focus:bg-white focus:ring-1 focus:ring-blue-400"
+                                    className="w-full bg-gray-100 rounded-full pl-10 pr-4 py-2 text-sm focus:outline-none focus:bg-white focus:ring-1 focus:ring-blue-400"
                                 />
                             </div>
                         </div>
                     </div>
                     
                     {/* Chat List */}
-                    <div className="flex-1 overflow-y-auto">
+                    <div className="flex-1 overflow-y-auto custom-scrollbar pt-3">
                         {users?.map((user, idx) => (
                             <div 
                                 key={idx}
                                 onClick={() => setCurrentUser(user)}
-                                className={`flex py-2 px-3 gap-3 hover:bg-gray-100 cursor-pointer transition-colors ${currentUser?.id === user.id ? 'bg-blue-50' : ''}`}
+                                className={`flex py-3 px-3 gap-3 cursor-pointer transition-colors ${
+                                    currentUser?.id === user.id 
+                                        ? 'bg-[#3390EC] hover:bg-[#3390EC] rounded-xl mx-2' 
+                                        : 'hover:bg-gray-100'
+                                }`}
                             >
-                                <div className="flex-none h-[50px] w-[50px] flex items-center justify-center rounded-full bg-gradient-to-br from-blue-400 to-purple-500">
+                                <div className="flex-none h-[52px] w-[52px] flex items-center justify-center rounded-full bg-gradient-to-br from-blue-400 to-purple-500">
                                     {user?.imgurl ? (
                                         <img className='h-full w-full object-cover rounded-full' src={user?.imgurl} alt="user" />
                                     ) : (
                                         <h3 className="text-lg font-medium text-white uppercase">{user?.name?.slice(0, 1)}</h3>
                                     )}
                                 </div>
-                                <div className="text-box border-b-[1px] border-gray-100 pb-3 overflow-hidden flex-1">
+                                <div className={`text-box pb-3 overflow-hidden flex-1 ${
+                                    currentUser?.id === user.id ? '' : 'border-b-[1px] border-gray-100'
+                                }`}>
                                     <div className="flex justify-between items-start leading-5 mb-1">
-                                        <h3 className="text-[15px] font-normal line-clamp-1 max-w-[200px] overflow-hidden text-gray-900">{user.name}</h3>
-                                        <span className="text-[13px] text-gray-400 ml-2 flex-shrink-0">{user?.lastmessage?.time}</span>
+                                        <h3 className={`text-[15px] font-medium line-clamp-1 max-w-[200px] overflow-hidden ${
+                                            currentUser?.id === user.id ? 'text-white' : 'text-gray-900'
+                                        }`}>{user.name}</h3>
+                                        <span className={`text-[13px] ml-2 flex-shrink-0 flex items-center gap-1 ${
+                                            currentUser?.id === user.id ? 'text-white' : 'text-gray-400'
+                                        }`}>
+                                            {user.textmessages && user.textmessages.length > 0 && user.textmessages[user.textmessages.length - 1].user && (
+                                                <svg width="18" height="12" viewBox="0 0 18 12" fill="none" className="flex-shrink-0">
+                                                    <path d="M6 6L8 8L12 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                                                    <path d="M10 6L12 8L16 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                                                </svg>
+                                            )}
+                                            {user?.lastmessage?.time}
+                                        </span>
                                     </div>
                                     <div className="flex justify-between items-center leading-5 mt-1">
-                                        <h3 className="text-[14px] text-gray-500 line-clamp-1 flex-1">{user?.lastmessage?.message}</h3>
+                                        <h3 className={`text-[14px] line-clamp-1 flex-1 ${
+                                            currentUser?.id === user.id ? 'text-white' : 'text-gray-500'
+                                        }`}>{user?.lastmessage?.message}</h3>
                                         {user.lastmessage.msgcnt > 0 && (
-                                            <span className="text-[12px] font-medium text-white min-w-[20px] px-1.5 h-[20px] bg-[#2AABEE] rounded-full flex items-center justify-center ml-2 flex-shrink-0">
+                                            <span className={`text-[12px] font-medium min-w-[20px] px-1.5 h-[20px] rounded-full flex items-center justify-center ml-2 flex-shrink-0 ${
+                                                currentUser?.id === user.id ? 'bg-white text-[#3390EC]' : 'bg-[#4ECC5E] text-white'
+                                            }`}>
                                                 {user.lastmessage.msgcnt}
                                             </span>
                                         )}
@@ -257,13 +280,14 @@ const Chat = () => {
                 </div>
 
                 {/* Chat View */}
-                <div className="flex-1 flex flex-col h-screen bg-[#E5DDD5]">
+                <div className="flex-1 flex flex-col h-screen" style={{
+                    backgroundColor: '#E5DDD5',
+                    backgroundImage: 'url(/telegram-bg.jpg)',
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center'
+                }}>
                 <div className="chattop__navbar flex h-[56px] bg-white shadow-sm w-full
             text-gray-800 gap-3 items-center px-3 z-40">
-
-                    <div className="flex-none h-[40px] w-[40px] flex items-center justify-center cursor-pointer hover:bg-gray-100 rounded-full transition-colors" >
-                        <MdArrowBack size={24} color="#707579" onClick={() => navigate(-1)} />
-                    </div>
                     <div className="flex-none h-[42px] w-[42px] flex items-center justify-center rounded-full bg-gradient-to-br from-blue-400 to-purple-500 cursor-pointer" onClick={handleState}>
                         {currentUser?.imgurl ? <div className="image-container" >
                             <img className='h-full w-full object-cover rounded-full'
@@ -288,12 +312,7 @@ const Chat = () => {
                         <div className="icon cursor-pointer hover:bg-gray-100 rounded-full p-2 transition-colors"><HiOutlineDotsVertical size={20} color="#707579" onClick={(e) => [changeClassList(), e.stopPropagation()]} /></div>
                     </div>
                 </div>
-                <div className="chat__container flex-1 pb-[5rem] overflow-auto" style={{
-                    backgroundImage: 'url(/telegram-bg.jpg)',
-                    backgroundSize: 'cover',
-                    backgroundPosition: 'center',
-                    backgroundBlendMode: 'overlay'
-                }}>
+                <div className="chat__container flex-1 pb-[5rem] overflow-auto custom-scrollbar">
                     <div className="max-w-4xl mx-auto px-4">
                         {currentUser?.textmessages?.map((message, index) => {
 
@@ -312,7 +331,7 @@ const Chat = () => {
 
                 </div>
 
-                <div className="w-full pb-3 bg-transparent">
+                <div className="w-full pb-3">
                     <div className="flex items-end gap-2 max-w-4xl mx-auto px-4">
                         {/* Main input container */}
                         <div className="flex-1 flex items-center bg-white rounded-3xl shadow-md px-3 py-2 gap-2 min-h-[46px]">

@@ -147,3 +147,82 @@ body {
 .single_msg {
     border-radius: 1rem;
 }
+
+/* Message Droplet Tail */
+.message-bubble.droplet:before {
+    position: absolute;
+    content: '';
+    bottom: 0;
+    left: -8px;
+    width: 12px;
+    height: 1px;
+    background-color: inherit;
+    z-index: 1;
+}
+
+.message-bubble.droplet:after {
+    position: absolute;
+    content: '';
+    bottom: 0;
+    left: -10px;
+    width: 16px;
+    height: 10px;
+    clip-path: url(#left-droplet);
+    background-color: inherit;
+    z-index: 1;
+}
+
+.message-bubble.my-message.droplet:before {
+    right: -8px;
+    left: initial;
+}
+
+.message-bubble.my-message.droplet:after {
+    right: -10px;
+    left: initial;
+    clip-path: url(#right-droplet);
+}
+
+/* Custom Scrollbar Styles */
+.custom-scrollbar {
+    scrollbar-width: thin;
+    scrollbar-color: transparent transparent;
+    transition: scrollbar-color 0.3s ease;
+}
+
+.custom-scrollbar:hover {
+    scrollbar-color: rgba(0, 0, 0, 0.2) transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+    width: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+    background: transparent;
+    border-radius: 10px;
+    transition: background 0.3s ease;
+}
+
+.custom-scrollbar:hover::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.2);
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 0, 0, 0.3);
+}
+
+/* Remove scrollbar buttons (arrows) */
+.custom-scrollbar::-webkit-scrollbar-button {
+    display: none;
+    height: 0;
+    width: 0;
+}
+
+.custom-scrollbar::-webkit-scrollbar-corner {
+    background: transparent;
+}
