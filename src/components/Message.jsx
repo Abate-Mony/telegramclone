@@ -5,12 +5,12 @@ const Message = ({message, showTail = true}) => {
   return (
     <div className={`flex relative my-[10px] ${!isUserMessage?"justify-start":"justify-end"}`}>
     
-    <div className={`message-bubble max-w-[450px] relative w-fit text-[15px] pt-2 pb-5 px-3 shadow-sm ${isUserMessage ? 'snd-msg-bg my-message' : 'bg-white'}`}>
+    <div className={`message-bubble max-w-[500px] relative w-fit text-[15px] pt-1 pb-4 px-3 shadow-sm ${isUserMessage ? 'snd-msg-bg my-message' : 'bg-white'}`}>
 
 {
   message.imgurl && <img src={message.imgurl} alt="message-img" className="max-h-72 h-full w-full rounded-md mb-2 object-fit"/>
 }
-    <p className="text-gray-900 leading-[1.3rem] pr-14">
+    <p className="text-gray-900 leading-[1.3rem] pr-14-">
    {
 isUserMessage ? message.user : message.me
       }

@@ -1,17 +1,15 @@
-import { MdArrowBack } from 'react-icons/md'
-import { useNavigate, useParams } from "react-router-dom"
-import { Send, Recieve } from '../components'
-import { BsEmojiSmile, BsMic, BsSearch } from 'react-icons/bs'
-import { IoIosAttach, IoMdCall } from 'react-icons/io'
+import EmojiPicker from 'emoji-picker-react'
+import { useEffect, useRef, useState } from 'react'
+import { AiOutlineMenu } from 'react-icons/ai'
+import { BsChevronRight, BsSearch } from 'react-icons/bs'
 import { CiInstagram } from 'react-icons/ci'
 import { HiOutlineDotsVertical } from 'react-icons/hi'
-import { BsChevronRight } from 'react-icons/bs'
-import { AiOutlineMenu } from 'react-icons/ai'
-import { useState, useEffect, useRef } from 'react'
+import { IoMdCall } from 'react-icons/io'
+import { MdArrowBack } from 'react-icons/md'
+import { useNavigate, useParams } from "react-router-dom"
 import users from '../Constants/User'
-import { IoMdSend } from 'react-icons/io'
-import EmojiPicker from 'emoji-picker-react'
-import Message from '../components/Message'
+import ChatList from '../Section/ChatList'
+import ChatView from '../Section/ChatView'
 const Chat = () => {
     const id = useParams().id
     const _ref = useRef(null)
@@ -146,26 +144,26 @@ const Chat = () => {
         <>{chng ?
             <div className='select-none fadein flex h-screen' >
                 <div className={`fixed bottom-0 z-50 w-full h-full  left-0 bg-slate-300
-                ${bol ? "block" : "hidden"}`} onClick={()=>setBol(false)}>
-                    <div className="absolute bottom-0 w-full left-0" onClick={e=>e.stopPropagation()}>
+                ${bol ? "block" : "hidden"}`} onClick={() => setBol(false)}>
+                    <div className="absolute bottom-0 w-full left-0" onClick={e => e.stopPropagation()}>
 
 
 
-                    <EmojiPicker theme="dark" height={350} autoFocusSearch={false}
-                    width={window.innerWidth < 400 ? window.innerWidth : 400} className="w-full border-4 border-orange-600" onEmojiClick={(emjObj) => {
+                        <EmojiPicker theme="dark" height={350} autoFocusSearch={false}
+                            width={window.innerWidth < 400 ? window.innerWidth : 400} className="w-full border-4 border-orange-600" onEmojiClick={(emjObj) => {
 
-                        console.log(emjObj.emoji)
-                        setText(text.concat(emjObj.emoji))
-                        setBol(false)
+                                console.log(emjObj.emoji)
+                                setText(text.concat(emjObj.emoji))
+                                setBol(false)
 
-                    }} />
+                            }} />
 
                     </div>
 
 
                 </div>
-                <div className={`fixed top-0 left-0 w-full bg-red-300 min-h-[60px] opacity-0 transition-opacity duration-500
-            ${selected.length > 0 && "z-50 opacity-100"}`}></div>
+                {/* <div className={`fixed top-0 left-0 w-full bg-red-300 min-h-[60px] opacity-0 transition-opacity duration-500
+            ${selected.length > 0 && "z-50 opacity-100"}`}></div> */}
 
                 <div className={`fixed bottom-0 left-0 w-full bg-red-300 min-h-[60px] opacity-0 transition-opacity duration-500
             ${selected.length > 0 && "z-50 opacity-100"}`}></div>
@@ -204,8 +202,8 @@ const Chat = () => {
                         </div>
                     </div>
                 </div>
-                {/* Chat List Sidebar */}
-                <div className="w-[420px] border-r border-gray-200 flex flex-col h-screen bg-white">
+                 <div className='w-[420px]'>
+                      <div className=" border-r border-gray-200 h-fit flex flex-col  bg-white">
                     {/* Sidebar Header */}
                     <div className="flex h-[56px] items-center px-4 gap-3 border-b border-gray-100">
                         <div className="flex-none flex items-center justify-center w-[40px] h-[40px] rounded-full hover:bg-gray-100 transition-colors cursor-pointer">
@@ -214,166 +212,28 @@ const Chat = () => {
                         <div className="flex-1">
                             <div className="relative">
                                 <BsSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={18} />
-                                <input 
-                                    type="text" 
-                                    placeholder="Search" 
+                                <input
+                                    type="text"
+                                    placeholder="Search"
                                     className="w-full bg-gray-100 rounded-full pl-10 pr-4 py-2 text-sm focus:outline-none focus:bg-white focus:ring-1 focus:ring-blue-400"
                                 />
                             </div>
                         </div>
                     </div>
-                    
-                    {/* Chat List */}
-                    <div className="flex-1 overflow-y-auto custom-scrollbar pt-3">
-                        {users?.map((user, idx) => (
-                            <div 
-                                key={idx}
-                                onClick={() => setCurrentUser(user)}
-                                className={`flex py-3 px-3 gap-3 cursor-pointer transition-colors ${
-                                    currentUser?.id === user.id 
-                                        ? 'bg-[#3390EC] hover:bg-[#3390EC] rounded-xl mx-2' 
-                                        : 'hover:bg-gray-100'
-                                }`}
-                            >
-                                <div className="flex-none h-[52px] w-[52px] flex items-center justify-center rounded-full bg-gradient-to-br from-blue-400 to-purple-500">
-                                    {user?.imgurl ? (
-                                        <img className='h-full w-full object-cover rounded-full' src={user?.imgurl} alt="user" />
-                                    ) : (
-                                        <h3 className="text-lg font-medium text-white uppercase">{user?.name?.slice(0, 1)}</h3>
-                                    )}
-                                </div>
-                                <div className={`text-box pb-3 overflow-hidden flex-1 ${
-                                    currentUser?.id === user.id ? '' : 'border-b-[1px] border-gray-100'
-                                }`}>
-                                    <div className="flex justify-between items-start leading-5 mb-1">
-                                        <h3 className={`text-[15px] font-medium line-clamp-1 max-w-[200px] overflow-hidden ${
-                                            currentUser?.id === user.id ? 'text-white' : 'text-gray-900'
-                                        }`}>{user.name}</h3>
-                                        <span className={`text-[13px] ml-2 flex-shrink-0 flex items-center gap-1 ${
-                                            currentUser?.id === user.id ? 'text-white' : 'text-gray-400'
-                                        }`}>
-                                            {user.textmessages && user.textmessages.length > 0 && user.textmessages[user.textmessages.length - 1].user && (
-                                                <svg width="18" height="12" viewBox="0 0 18 12" fill="none" className="flex-shrink-0">
-                                                    <path d="M6 6L8 8L12 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                                                    <path d="M10 6L12 8L16 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                                                </svg>
-                                            )}
-                                            {user?.lastmessage?.time}
-                                        </span>
-                                    </div>
-                                    <div className="flex justify-between items-center leading-5 mt-1">
-                                        <h3 className={`text-[14px] line-clamp-1 flex-1 ${
-                                            currentUser?.id === user.id ? 'text-white' : 'text-gray-500'
-                                        }`}>{user?.lastmessage?.message}</h3>
-                                        {user.lastmessage.msgcnt > 0 && (
-                                            <span className={`text-[12px] font-medium min-w-[20px] px-1.5 h-[20px] rounded-full flex items-center justify-center ml-2 flex-shrink-0 ${
-                                                currentUser?.id === user.id ? 'bg-white text-[#3390EC]' : 'bg-[#4ECC5E] text-white'
-                                            }`}>
-                                                {user.lastmessage.msgcnt}
-                                            </span>
-                                        )}
-                                    </div>
-                                </div>
-                            </div>
-                        ))}
-                    </div>
+
+
                 </div>
+                {/* Chat List Sidebar */}
+                <ChatList />
+                 </div>
+             
 
                 {/* Chat View */}
-                <div className="flex-1 flex flex-col h-screen" style={{
-                    backgroundColor: '#E5DDD5',
-                    backgroundImage: 'url(/telegram-bg.jpg)',
-                    backgroundSize: 'cover',
-                    backgroundPosition: 'center'
-                }}>
-                <div className="chattop__navbar flex h-[56px] bg-white shadow-sm w-full
-            text-gray-800 gap-3 items-center px-3 z-40">
-                    <div className="flex-none h-[42px] w-[42px] flex items-center justify-center rounded-full bg-gradient-to-br from-blue-400 to-purple-500 cursor-pointer" onClick={handleState}>
-                        {currentUser?.imgurl ? <div className="image-container" >
-                            <img className='h-full w-full object-cover rounded-full'
-                                src={currentUser?.imgurl}
-                                alt="user" />
-                        </div> : <h3 className="text-base font-medium text-white uppercase whitespace-nowrap
-                        overflow-hidden line-clamp-1">{currentUser?.name?.slice(0, 1)}</h3>
+           
+           <div className="hidden md:block flex-1" >
 
-                        }
-
-
-                    </div>
-                    <div className="flex flex-col flex-1 overflow-hidden cursor-pointer" style={{ flex: 1 }} onClick={handleState}
-                    >
-
-                        <h2 className="text-[15px] font-medium whitespace-nowrap overflow-hidden w-full text-gray-900">{currentUser?.name}</h2>
-                        <p className="text-gray-500 leading-4 text-[13px]">{currentUser?.lastseen}</p>
-                    </div>
-                    <div className="flex justify-between items-center gap-1 " style={{ flex: "none" }}>
-                        <div className="icon cursor-pointer hover:bg-gray-100 rounded-full p-2 transition-colors"><BsSearch size={20} color="#707579" /></div>
-                        <div className="icon cursor-pointer hover:bg-gray-100 rounded-full p-2 transition-colors"><IoMdCall size={20} color="#707579" /></div>
-                        <div className="icon cursor-pointer hover:bg-gray-100 rounded-full p-2 transition-colors"><HiOutlineDotsVertical size={20} color="#707579" onClick={(e) => [changeClassList(), e.stopPropagation()]} /></div>
-                    </div>
-                </div>
-                <div className="chat__container flex-1 pb-[5rem] overflow-auto custom-scrollbar">
-                    <div className="max-w-4xl mx-auto px-4">
-                        {currentUser?.textmessages?.map((message, index) => {
-
-                            return (
-                                <div className={`${selected.includes(index) ? "bg-blue-200" : "bg-transparent"}`} key={index} 
-                                // onTouchStart={() => handleTouchStart(index)} onTouchEnd={handleTouchEnd}
-                                >
-                                    <div className={`icon text-lg ${selected.includes(index) ? "block" : "hidden"}`}>0</div>
-                                    <Message  message={message}/>
-                                </div>
-                            )
-
-
-                        })}
-                    </div>
-
-                </div>
-
-                <div className="w-full pb-3">
-                    <div className="flex items-end gap-2 max-w-4xl mx-auto px-4">
-                        {/* Main input container */}
-                        <div className="flex-1 flex items-center bg-white rounded-3xl shadow-md px-3 py-2 gap-2 min-h-[46px]">
-                            <span className='w-[30px] h-[30px] cursor-pointer flex items-center justify-center'>
-                                <BsEmojiSmile onClick={() => setBol(true)} size={22} className="text-gray-500 hover:text-gray-700 transition-colors" />
-                            </span>
-                            
-                            <div className="input-container flex-1 h-[32px]">
-                                <input 
-                                    type="text" 
-                                    name="text" 
-                                    id="text" 
-                                    placeholder='Message' 
-                                    value={text} 
-                                    onChange={handleTextChange}
-                                    className='h-full px-2 w-full bg-transparent border-0 focus:border-none focus:outline-none text-gray-800 placeholder-gray-400 text-[15px]' 
-                                />
-                            </div>
-
-                            {text.trim().length === 0 && (
-                                <span className='w-[30px] h-[30px] flex items-center justify-center cursor-pointer'>
-                                    <IoIosAttach size={22} className="text-gray-500 rotate-45 hover:text-gray-700 transition-colors" />
-                                </span>
-                            )}
-                        </div>
-
-                        {/* Separate mic/send button */}
-                        <div className="flex-none">
-                            {text.trim().length > 0 ? (
-                                <div className="w-[46px] h-[46px] bg-[#2AABEE] rounded-full flex items-center justify-center cursor-pointer hover:bg-[#2499d4] transition-colors shadow-md" onClick={handleTextSend}>
-                                    <IoMdSend size={22} className="text-white" />
-                                </div>
-                            ) : (
-                                <div className="w-[46px] h-[46px] bg-white rounded-full flex items-center justify-center cursor-pointer hover:bg-gray-100 transition-colors shadow-md" onClick={() => _set_M(!_toggleMic)}>
-                                    {_toggleMic ? <BsMic size={22} className="text-gray-500" /> : <CiInstagram size={26} className="text-gray-500" />}
-                                </div>
-                            )}
-                        </div>
-                    </div>
-                </div>
-                </div>
-
+            <ChatView/>
+           </div>
 
             </div> : <div className='min-h-screen  overflow-y-auto  dark:bg-slate-800' ref={_ref}>
 
